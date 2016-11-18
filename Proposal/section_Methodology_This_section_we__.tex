@@ -1,0 +1,19 @@
+\section{Methodology}
+This section we describe the overall approach towards building the proposed framework.
+\subsection{Feature Extraction}
+We consider three categories of features in our approach i.e Prosodic features, lexical features and facial features. Also, as the data provides with necessary transcripts from m-turkers along with filler words, we don't have to use any automatic speech recognition. Hence lexical features can be extracted directly from transcripts.
+\subsubsection{Prosodic Features}
+In order to extract prosodic features from the audio, we are planning to use an open source speech analysis tool called PRAAT \cite{naim2015automated}. We obtain the features from parts where interviewer and interviewee speak separately. We then obtain averages over every response and over five responses. Thus we can both reduce dimensionality and retain temporal nature of the prosody that is required for our analysis.
+
+According to some of the previous research \cite{frick1985communicating}, pitch, intensity, characters of first three formants and spectral energy are found to be more representative of our behavior. For every feature we extracted mean, variance, minimum and maximum values. We also extracted additional features such as pauses, non-uniform pitch and intensity of speeches as it will help in determining overall score of the interview.
+\subsubsection{Lexical Features}
+Word count is often used as lexical feature in many applications. However, we only have limited data; hence, we will not be able to use it as it would result in sparse high dimentional feature vectors. To resolve this problem, we will use Latent Dirichlet Allocation (LDA) to learn 20 topics from interview dataset. Then, we use the relative weights of these topics in every interview as lexical features.
+
+Also, we know that speaking rate and fluency can be indicators of a good interview. Hence, we are also planning to use additional features such as words per second, unique words per second, filler word count and unique word count. 
+\subsubsection{Facial Features}
+Facial features are very important and are hard to be quantified. In this project, we will extract features from every frame in the video sequence. There are many tools such as OKAO, CLM and GAVAM that can give use features such as smile level, position of head so that we can also incorporate features like nodding. We still need to investigate as to which one will be more appropriate to our problem. We are also planning on using OpenFace which uses deep convolutional neural networks. OpenFace will help us with Facial Landmark detection, head pose estimation, Action Unit detection for inferring various distinct facial expressions. It also helps with Eye gaze estimation. Similar to other features, we will calculate the overall averages and averages over chunks of time frames.
+
+After extracting all the features, we will concatenate them to form a feature vectors. We will normalize all the features to have zero mean and unit variance to eliminate bias.
+
+\subsection{Score Predictions}
+We will train regression models using the features extracted to predict the overall score of the interview, extent of contribution of features towards the score and scores of time frames in a given interview. For this we are planning to use either Support Vector Regression or LASSO. We can also use other approaches such as logistic regression (L1 reg) or Gausian Mixture models. We will decide the best algorithm using turkers' rating and how well our approach matches them. In order to find the extent of contribution of features (required for recommendations) we can just estimate weights of the features in determining the given result.
