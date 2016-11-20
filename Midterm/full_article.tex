@@ -26,7 +26,7 @@
 
 \title{Analysis of Dyadic Interaction in an Interview Setting}
 
- \author{Suresh Alse, Bhavishya Sharma, Jay Priyadarshi, Abhishek Sharma}
+\author{Suresh Alse, Bhavishya Sharma, Jay Priyadarshi, Abhishek Sharma}
 
 \maketitle
 
@@ -126,6 +126,48 @@ We also tried semaine-db \cite{mckeown2012semaine} which seemed good for this pr
 \end{center}
 \end{figure}
 
+\subsection{Inter-rater agreement}
+Jay TODO
+
+\subsection{Feature analysis}
+We also did some analysis on the features extracted to get more insights to do feature selection while doing regression. For every feature we try to find the correlation between the features and the scores of assessment questions.
+\subsubsection{Prosodic Features}
+The extracted prosodic features consists of energy, power, pitch etc. Every interview is divided into four segments corresponding to four different questions. After averaging out all the features for each of the segments, we try to match it with the scores assigned by the turkers for each of the assessment questions. We draw a scatter plot and try to fit a line to see how relevant the score is to each of these features. A positive slope indicates that with the increase in the value of the feature, a higher score would be assigned. A negative slope would indicate that with the increase in the value of the feature, a lower score would be assigned. A near zero slope would indicate that this feature wouldn't matter and we can neglect it in regression. Figures \ref{fig:prosodic_analysis1}, \ref{fig:prosodic_analysis2}, \ref{fig:prosodic_analysis3} and \ref{fig:prosodic_analysis4} are some of the 1026 graphs that were drawn to visualize this. In Figure \ref{fig:prosodic_analysis1} we can see that with the increase in energy, interviewees are likely to be more excited. Figure \ref{fig:prosodic_analysis2} indicates that the recommended rating score drops with the increase in shimmer. Figure \ref{fig:prosodic_analysis4} indicates that Min pitch and Engaged score are not related and hence we can ignore it. 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{figures/Excited and energy.png}
+\caption{Energy vs Excited}
+\label{fig:prosodic_analysis1}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{figures/RecommendHiring and shimmer.png}
+\caption{Shimmer vs Recommended Hiring}
+\label{fig:prosodic_analysis2}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{figures/NoFillers and energy.png}
+\caption{Energy vs No. of Fillers}
+\label{fig:prosodic_analysis3}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{figures/Engaged and min_pitch.png}
+\caption{Min Pitch vs Engaged}
+\label{fig:prosodic_analysis4}
+\end{center}
+\end{figure}
 \section{Methodology}
 This section we describe the overall approach towards building the proposed framework.
 \subsection{Feature Extraction}
