@@ -24,7 +24,7 @@
 
 \begin{document}
 
-\title{Analysis of Dyadic Interaction in an Interview Setting}
+\title{Analysis of Dyadic Interaction in an Job Interview Setting}
 
 \author{Suresh Alse, Bhavishya Sharma, Jay Priyadarshi, Abhishek Sharma}
 
@@ -42,6 +42,7 @@ There has been tons of research by psychologists and career experts about what o
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=0.7\columnwidth]{figures/process1/process1}
+\label{fig:process}
 \caption{{Proposed Framework%
 }}
 \end{center}
@@ -52,10 +53,10 @@ In this project we would like to build a computational framework using which int
 \item Automatically predict the overall score of the interview.
 \item Quantify verbal and nonverbal behavior of the interviewee towards the success in the interview.
 \item Automatically recommend aspects to be improved for better overall score. 
-\item Timeline that shows how well the interview progressed with respect to time.
+\item Timeline that shows how well the interview progressed with respect to each question.
 \end{itemize}
 
-In order to achieve this we propose a framework as shown in the figure below. We use a one on one interview data comprised of three modes (audio, video and textual). Then, we extract multimodal features (facial expressions, lexical and prosody) and predict the overall score of the interview, how likely the candidate is going to be hired and other traits required for the interview process.
+In order to achieve this we propose a framework as shown in Figure \ref{fig:process}. We use a one on one interview data comprised of three modes (audio, video and textual). Then, we extract multimodal features (facial expressions, lexical and prosody) and predict the overall score of the interview, how likely the candidate is going to be hired and other traits required for the interview process.
 
 
 \section{Related Work}
@@ -126,6 +127,14 @@ We also tried semaine-db \cite{mckeown2012semaine} which seemed good for this pr
 \end{center}
 \end{figure}
 
+\subsection{Drawbacks}
+\begin{itemize}
+ \item As the study is limited to undergraduate students, it might have introduced a selection bias in the dataset. 
+ \item In the dataset, there are occasions where a small mistake (like using a swear word) would reflect badly on the interview outcome. As they are very rare, it is difficult to model such phenomena.
+ \item The dataset has a set of 138 interviews, in which 69 interviews are before feedback is shared, while 69 are with the same participants, after the feedback is shared. This provides a bit of redundancy to an already biased dataset. As of now, we are treating each interview distinctly, however it is still up for discussion.
+ \item In the dataset, the interviewer is not visible, and hence we are not able to model the interviewer’s nonverbal behavior.
+\end{itemize}
+
 \subsection{Inter-rater agreement}
 To gauge the quality of the ratings given by 9 annotators, we have calculated Krippendorff’s Alpha for each trait. The ratings are on a 7-point scale. Figure \ref{fig:interrater} shows that the annotators agreed more on the if the subject had an Engaging tone, if they seemed Excited, Friendly or smiled. This can be because of the fact that we have developed necessary insticts to easily notice these things and we would almost always agree with features like if a individual smiled or if he/she was friendly or excited or even had an engaging tone. Whereas the features like Structured Answer, Authentic, Calm, paused, Speaking rate are kind of features which a lot of humans would disagree on: An idea can be Authentic to one individual might not feel Authentic to another. The same thing, measuring the Structure of an answer, Calmness, Speaking rate and Focus of an individual is something which will incur a high variance among annotators. Different annonators may have diffferent criteria for deciding the structure of an answer. Hence, it can be seen that traits like Engaging Tone, Excited, Friendly, No Fillers, Smile have good inter-annoatator agreement, where as in case of subjective traits like Structured Answer, Authentic, Stress, etc. get low scores.
 
@@ -138,31 +147,38 @@ To gauge the quality of the ratings given by 9 annotators, we have calculated Kr
 \end{figure}
 
 \subsection{Feature analysis}
-We also did some analysis on the features extracted to get more insights to do feature selection while doing regression. For every feature we try to find the correlation between the features and the scores of assessment questions.
+\label{sec:feature_analysis}
+We extract Prosodic, Facial and Lexical features from the dataset as mentioned in Section \ref{sec:methodology}. Also, we did some analysis on the features extracted to get more insights to do feature selection while doing regression. For every feature we try to find the correlation between the features and the scores of assessment questions.
 \subsubsection{Prosodic Features}
 The extracted prosodic features consists of energy, power, pitch etc. Every interview is divided into five segments corresponding to five different questions asked by the interviewer. After averaging out all the features for each of the segments, we try to match it with the scores assigned by the turkers for each of the assessment questions. We draw a scatter plot and try to fit a line to see how relevant the score is to each of these features. A positive slope indicates that with the increase in the value of the feature, a higher score would be assigned. A negative slope would indicate that with the increase in the value of the feature, a lower score would be assigned. A near zero slope would indicate that this feature wouldn't matter and we can neglect it in regression. Figures \ref{fig:prosodic_analysis1}, \ref{fig:prosodic_analysis2}, \ref{fig:prosodic_analysis3} and \ref{fig:prosodic_analysis4} are some of the 1026 graphs that were drawn to visualize this. In Figure \ref{fig:prosodic_analysis1} we can see that with the increase in energy, interviewees are likely to be more excited. Figure \ref{fig:prosodic_analysis2} indicates that the recommended rating score drops with the increase in shimmer. Figure \ref{fig:prosodic_analysis4} indicates that Min pitch and Engaged score are not related and hence we can ignore it. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{figures/Excited and energy.png}
+\includegraphics[width=0.65\columnwidth]{figures/Excited and energy.png}
 \caption{Energy vs Excited}
 \label{fig:prosodic_analysis1}
 \end{center}
 \end{figure}
 
-
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{figures/RecommendHiring and shimmer.png}
+\includegraphics[width=0.65\columnwidth]{figures/RecommendHiring and shimmer.png}
 \caption{Shimmer vs Recommended Hiring}
 \label{fig:prosodic_analysis2}
 \end{center}
 \end{figure}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.65\columnwidth]{figures/NotAwkward and energy.png}
+\caption{Energy vs NotAwkward}
+\label{fig:prosodic_analysis3}
+\end{center}
+\end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{figures/NoFillers and energy.png}
+\includegraphics[width=0.65\columnwidth]{figures/NoFillers and energy.png}
 \caption{Energy vs No. of Fillers}
 \label{fig:prosodic_analysis3}
 \end{center}
@@ -171,7 +187,7 @@ The extracted prosodic features consists of energy, power, pitch etc. Every inte
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{figures/Engaged and min_pitch.png}
+\includegraphics[width=0.65\columnwidth]{figures/Engaged and min_pitch.png}
 \caption{Min Pitch vs Engaged}
 \label{fig:prosodic_analysis4}
 \end{center}
@@ -184,7 +200,7 @@ Facial features extracted are composed of features such as pitch, yaw, roll etc 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{figures/Engaged and Pitch.png}
+\includegraphics[width=0.65\columnwidth]{figures/Engaged and Pitch.png}
 \caption{Pitch vs Engaged}
 \label{fig:facial_analysis}
 \end{center}
@@ -195,10 +211,11 @@ We see that this approach doesn't give much insights about the assessment questi
 \section{Methodology}
 \label{sec:methodology}
 This section we describe the overall approach towards building the proposed framework.
+
 \subsection{Feature Extraction}
 We consider three categories of features in our approach i.e Prosodic features, lexical features and facial features. Also, as the data provides with necessary transcripts from m-turkers along with filler words, we don't have to use any automatic speech recognition. Hence lexical features can be extracted directly from transcripts.
 \subsubsection{Prosodic Features}
-In order to extract prosodic features from the audio, we are planning to use an open source speech analysis tool called PRAAT \cite{naim2015automated}. We obtain the features from parts where interviewer and interviewee speak separately. We then obtain averages over every response and over five responses. Thus we can both reduce dimensionality and retain temporal nature of the prosody that is required for our analysis.
+In order to extract prosodic features from the audio, we used an open source speech analysis tool called PRAAT \cite{naim2015automated}. From the dataset we know the durations of each of the question asked during the interview. So each interview can be divided into five parts. We extract prosodic features over these five parts and keep it separately.
 
 According to some of the previous research \cite{frick1985communicating}, pitch, intensity, characters of first three formants and spectral energy are found to be more representative of our behavior. For every feature we extracted mean, variance, minimum and maximum values. We also extracted additional features such as pauses, non-uniform pitch and intensity of speeches as it will help in determining overall score of the interview.
 \subsubsection{Lexical Features}
@@ -206,14 +223,45 @@ Word count is often used as lexical feature in many applications. However, we on
 
 Also, we know that speaking rate and fluency can be indicators of a good interview. Hence, we are also planning to use additional features such as words per second, unique words per second, filler word count and unique word count. 
 \subsubsection{Facial Features}
-Facial features are very important and are hard to be quantified. In this project, we will extract features from every frame in the video sequence. There are many tools such as OKAO, CLM and GAVAM that can give use features such as smile level, position of head so that we can also incorporate features like nodding. We still need to investigate as to which one will be more appropriate to our problem. We are also planning on using OpenFace which uses deep convolutional neural networks. OpenFace will help us with Facial Landmark detection, head pose estimation, Action Unit detection for inferring various distinct facial expressions. It also helps with Eye gaze estimation. Similar to other features, we will calculate the overall averages and averages over chunks of time frames.
+Facial features are very important and are hard to be quantified. In this project, we extract features from every frame in the video sequence. The dataset includes the facial features extracted for each video using Shore framework. We will divide every video into five parts corresponding to the questions asked. Using AdaBoost classifier to distinguish between neutral and smiling faces, the dataset also gives us the smile data that we can use. We will extract things such as head nods and shakes and average it out and consider as a feature. 
 
-After extracting all the features, we will concatenate them to form a feature vectors. We will normalize all the features to have zero mean and unit variance to eliminate bias.
+We will normalize all the features to have zero mean and unit variance to eliminate bias.
 
 \subsection{Score Predictions}
-We will train regression models using the features extracted to predict the overall score of the interview, extent of contribution of features towards the score and scores of time frames in a given interview. For this we are planning to use either Support Vector Regression or LASSO. We can also use other approaches such as logistic regression (L1 reg) or Gausian Mixture models. We will decide the best algorithm using turkers' rating and how well our approach matches them. In order to find the extent of contribution of features (required for recommendations) we can just estimate weights of the features in determining the given result.
+We use the features extracted as mentioned above to predict the final score.
+\subsubsection{Training}
+Figure \ref{fig:methodology-training} shows the overall approach for training. We treat aggregate of every assessment question scored by the turkers as a feature and concatenate them to form a feature vector. The overall score rounded to nearest score in the 1-7 point scale is considered as the training class. We use the feature vector and the the score to train a SVM model which can be used to predict scores.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{figures/methodology-training.pdf}
+\caption{Training}
+\label{fig:methodology-training}
+\end{center}
+\end{figure}
+\subsubsection{Classification}
+After training the SVM model we will use it as mentioned in the Figure \ref{fig:methodology} for prediction. After extracting the multimodal features, we will perform feature selection as mentioned in Section \ref{sec:feature_analysis} to select appropriate features for each of the assessment questions. We will use SVR type of regression to predict the scores for assessment questions. Assessment scores used to train the SVM model is used to train SVR as well. While predicting the scores of assessment questions, we do it on question level i.e every question asked by the interviewer. Once, we have the assessment question scores, we concatenate it to form a feature vector. This is then passed to SVM classifier trained earlier to predict the final score. For every interviewee, we will have five results corresponding to each question. The average score is considered to see if the interviewee should be hired or not.
 
-\newpage
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/methodology.pdf}
+\caption{Prediction}
+\label{fig:methodology}
+\end{center}
+\end{figure}
+
+\subsubsection{Score analysis and Report generation}
+SVM classifier also allows us to find the weights of the feature vectors while doing the prediction. Using this, we can measure things like engagement, how excited, how friendly. etc (from assessment questions) the interviewee was in the interview. As we have done this on the question level (five questions per interview), we can go to the level to which we will be able to tell specific parts where the interviewee excelled or needs improvement.
+
+\subsubsection{Validation}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.6\columnwidth]{figures/validation.jpeg}
+\caption{Validation}
+\label{fig:methodology}
+\end{center}
+\end{figure}
+All the experiments mentioned above are run in a leave-one-interview-out fashion, i.e. we keep the examples in the testing set (25\%) segregated from the training (50\%) and validation sets (25\%). The criteria for inclusion of a certain interview in any of the datasets is random (although, we need to make sure that the pre and post pairs don’t end up in the same dataset). The optimal model parameters for each test set are chosen by a three–fold validation on the remaining interviews, with the evaluation metric used being total accuracy, i.e. percentage of interviews for which correct label is predicted in a test set.
+
 \section{Timeline}
 \begin{table}[h!]
     \begin{tabular}{ | c | p{13cm} | }
@@ -226,6 +274,15 @@ We will train regression models using the features extracted to predict the over
         \hline
     \end{tabular} 
 \end{table}
+
+\section{Tasks till now}
+\begin{itemize}
+ \item Suresh Alse - Data collection and cleaning, Feature extraction, Feature analysis, Feature selection.
+ \item Bhavishya Sharma - Data collection and cleaning, Feature extraction, Feature analysis, Feature selection
+ \item Jay Priyadarshi- Feature extraction, Feature analysis, Feature selection
+ \item Abhishek Sharma - Feature analysis, Feature selection
+\end{itemize}
+
 
 \bibliographystyle{apacite}
 \bibliography{bibliography/converted_to_latex.bib%
